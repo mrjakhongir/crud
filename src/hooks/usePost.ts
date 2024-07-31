@@ -5,8 +5,20 @@ interface RequestData {
 	password: string;
 }
 
+interface UserData {
+	id: number;
+	username: string;
+	email: string;
+	firstName: string;
+	lastName: string;
+	gender: string;
+	image: string;
+	token: string;
+	refreshToken: string;
+}
+
 export default function usePost(url: string) {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState<UserData | null>(null);
 	const [error, setError] = useState<null | Error>(null);
 	const [loading, setLoading] = useState(false);
 

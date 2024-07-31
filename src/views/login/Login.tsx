@@ -14,6 +14,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { setAuth } from '@/store/authSlice';
 import usePost from '@/hooks/usePost';
 
 const userSchema = z.object({
@@ -24,6 +27,8 @@ const userSchema = z.object({
 type Values = z.infer<typeof userSchema>;
 
 function Login() {
+	const dispatch = useDispatch();
+
 	const { makeRequest, data, loading, error } = usePost(
 		'https://dummyjson.com/auth/login'
 	);
@@ -44,8 +49,12 @@ function Login() {
 
 	async function loginUser(formData: Values) {
 		await makeRequest(formData);
-		console.log(data);
+		if (data) {
+			localStorage.setItem('token', data.token);
+			dispatch(setAuth(data.token));
+		}
 	}
+
 	return (
 		<div className='h-[100vh] flex items-center'>
 			<Card className='w-full mx-auto max-w-sm'>

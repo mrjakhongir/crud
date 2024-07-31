@@ -3,29 +3,31 @@ import {
 	redirect,
 	RouterProvider,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Layout from './layouts/Layout';
 import Home from './views/home/Home';
 import Login from './views/login/Login';
 import Register from './views/register/Register';
 import Authlayout from './layouts/Authlayout';
-
-const requireAuth = async () => {
-	const isAuthenticated = false;
-	if (!isAuthenticated) {
-		throw redirect('/login');
-	}
-	return null;
-};
-
-const redirectIfUser = async () => {
-	const isAuthenticated = false;
-	if (isAuthenticated) {
-		throw redirect('/home');
-	}
-	return null;
-};
+import { RootState } from './store/store';
 
 function App() {
+	const isAuthenticated = useSelector((state: RootState) => state.auth.token);
+
+	async function requireAuth() {
+		if (!isAuthenticated) {
+			throw redirect('/login');
+		}
+		return null;
+	}
+
+	async function redirectIfUser() {
+		if (isAuthenticated) {
+			throw redirect('/');
+		}
+		return null;
+	}
+
 	const router = createBrowserRouter([
 		{
 			path: '/',
