@@ -5,11 +5,11 @@ import {
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Layout from './layouts/Layout';
-import Home from './views/home/Home';
 import Login from './views/login/Login';
 import Register from './views/register/Register';
 import Authlayout from './layouts/Authlayout';
 import { RootState } from './store/store';
+import HomePage from './views/home/HomePage';
 
 function App() {
 	const isAuthenticated = useSelector((state: RootState) => state.auth.token);
@@ -35,7 +35,7 @@ function App() {
 			children: [
 				{
 					path: '/',
-					element: <Home />,
+					element: <HomePage />,
 					loader: requireAuth,
 				},
 				{
