@@ -1,7 +1,8 @@
 import { TableCell, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import DropDown from './DropDown';
 import { Product } from '@/lib/definitions';
+import EditModal from './EditModal';
+import DeleteModal from './DeleteModal';
 
 type TableRowComponentProps = {
 	product: Product;
@@ -10,15 +11,18 @@ type TableRowComponentProps = {
 function TableRowComponent({ product }: TableRowComponentProps) {
 	return (
 		<TableRow>
-			<TableCell className='font-medium'>{product.title}</TableCell>
-			<TableCell className='md:table-cell'>{product.category}</TableCell>
-			<TableCell className='md:table-cell'>{product.brand}</TableCell>
-			<TableCell className='md:table-cell'>$ {product.price}</TableCell>
+			<TableCell>{product.title}</TableCell>
+			<TableCell>{product.category}</TableCell>
+			<TableCell>{product.brand}</TableCell>
+			<TableCell>$ {product.price}</TableCell>
 			<TableCell>
 				<Badge variant='default'>{product.rating}</Badge>
 			</TableCell>
 			<TableCell>
-				<DropDown />
+				<div className='flex items-center gap-2'>
+					<EditModal product={product} />
+					<DeleteModal product={product} />
+				</div>
 			</TableCell>
 		</TableRow>
 	);

@@ -9,12 +9,12 @@ interface ProductsResponse {
 	limit: number;
 }
 
-export default function useGet(url: string, token: string) {
+export default function useGet() {
 	const [data, setData] = useState<ProductsResponse | null>(null);
 	const [error, setError] = useState<null | Error>(null);
 	const [loading, setLoading] = useState(false);
 
-	const makeRequest = useCallback(async () => {
+	const makeRequest = useCallback(async (url: string, token: string) => {
 		setLoading(true);
 		setError(null);
 		try {
@@ -37,7 +37,7 @@ export default function useGet(url: string, token: string) {
 		} finally {
 			setLoading(false);
 		}
-	}, [url, token]);
+	}, []);
 
 	return { makeRequest, data, error, loading };
 }

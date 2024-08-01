@@ -8,19 +8,20 @@ import { RootState } from '@/store/store';
 
 import useGet from '@/hooks/useGet';
 
-function DashboardTable() {
+type DashboardTableProps = {
+	searchProducts: string;
+};
+
+function DashboardTable({ searchProducts }: DashboardTableProps) {
 	const token = useSelector((state: RootState) => state.auth.token);
-	const { makeRequest, data, error, loading } = useGet(
-		'products?limit=10',
-		token
-	);
+	const { makeRequest, data, error, loading } = useGet();
 
 	useEffect(() => {
 		async function getAllProducts() {
-			await makeRequest();
+			await makeRequest(`products/search?q=${searchProducts}`, token);
 		}
 		getAllProducts();
-	}, []);
+	}, [searchProducts]);
 
 	if (loading) {
 		return <p>Loading...</p>;
